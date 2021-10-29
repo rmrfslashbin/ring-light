@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ring Light</title>
+</head>
+
+<body>
+    <div>
+        <input type="range" id="color" name="color" min="0" max="255" value="128">
+        <label id="colorLabel" for="color">Color: 128</label>
+    </div>
+    <script>
+        window.onload = function () {
+            const colorElement = document.querySelector('#color');
+            const bodyElement = document.querySelector('body');
+            const colorLabelElement = document.querySelector('#colorLabel');
+
+            const color = localStorage.getItem('color');
+            if (color) {
+                colorElement.value = color;
+            }
+
+            bodyElement.style.backgroundColor = `rgb(${colorElement.value}, ${colorElement.value}, ${colorElement.value})`;
+            colorLabelElement.innerHTML = `Color: ${colorElement.value}`;
+
+            colorElement.addEventListener('change', (event) => {
+                bodyElement.style.backgroundColor = `rgb(${event.target.value}, ${event.target.value}, ${event.target.value})`;
+                colorLabelElement.innerHTML = `Color: ${event.target.value}`;
+                localStorage.setItem('color', event.target.value);
+
+                let newLabelColor;
+                if (event.target.value > 128) {
+                    newLabelColor = (event.target.value / 2) - 256
+                } else {
+                    newLabelColor = (event.target.value / 2) + 128
+                }
+                colorLabelElement.style.color = `rgb(${newLabelColor}, ${newLabelColor}, ${newLabelColor})`;
+            });
+        }
+    </script>
+</body>
+
+</html>
